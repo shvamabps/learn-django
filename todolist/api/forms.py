@@ -12,7 +12,7 @@ from .models import TodoList
 class TodoListForm(forms.ModelForm):
     class Meta:
         model = TodoList
-        fields = ["title", "description"]
+        fields = ["title", "description", "completed"]
         widgets = {
             "title": forms.TextInput(
                 attrs={
@@ -22,6 +22,11 @@ class TodoListForm(forms.ModelForm):
             "description": forms.Textarea(
                 attrs={
                     "class": "w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                }
+            ),
+            "completed": forms.CheckboxInput(
+                attrs={
+                    "class": "w-4 h-4 text-blue-500 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
                 }
             ),
         }
