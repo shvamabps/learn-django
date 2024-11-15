@@ -1,0 +1,7 @@
+services:
+  todolist:
+    build: ./todolist
+    ports:
+      - "8000:8000"
+    container_name: todolist
+    restart: always

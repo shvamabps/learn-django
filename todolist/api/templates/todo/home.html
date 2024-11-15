@@ -1,0 +1,58 @@
+{% extends "todo/index.html" %} {% block content %}
+<h1 class="text-2xl font-bold my-4 flex justify-center items-center">
+  Welcome to the Todo List
+</h1>
+<div class="max-w-7xl mx-auto mt-10 p-6 bg-white rounded-lg shadow-md">
+  {% if messages %}
+  <div class="mt-1 flex justify-center flex-1 items-center">
+    <ul>
+      {% for message in messages %}
+      <li
+        class="{% if message.tags == 'error' %}text-red-500{% elif message.tags == 'success' %}text-green-500{% endif %} text-sm"
+      >
+        {{ message }}
+      </li>
+      {% endfor %}
+    </ul>
+  </div>
+  {% endif %}
+  <h2 class="text-xl font-bold mb-4">All Todos</h2>
+  <table class="min-w-full bg-white">
+    <thead>
+      <tr>
+        <th class="py-2">Title</th>
+        <th class="py-2">Description</th>
+        <th class="py-2">Completed</th>
+        <th class="py-2">Created At</th>
+        <th class="py-2">Todo Id</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for todo in todos %}
+      <tr>
+        <td class="border px-4 py-2">{{ todo.title }}</td>
+        <td class="border px-4 py-2">{{ todo.description }}</td>
+        <td
+          class="border px-4 py-2 {%if todo.completed %} text-green-500 {% else %}text-red-500{% endif %}"
+        >
+          {%if todo.completed %}Completed {% else %}Incomplete{% endif %}
+        </td>
+        <td class="border px-4 py-2">
+          {{ todo.created_at|date:"F j, Y, g:i a" }}
+        </td>
+        <td class="border px-4 py-2">
+          <a href="{% url 'update_todo' todo.todo_id %}" class="text-blue-500"
+            >{{todo.todo_id}}</a
+          >
+          <!-- New update link -->
+        </td>
+      </tr>
+      {% empty %}
+      <tr>
+        <td colspan="4" class="text-center py-4">No todos available.</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock content %}

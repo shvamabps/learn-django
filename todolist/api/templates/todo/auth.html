@@ -1,0 +1,61 @@
+{% extends "todo/index.html" %} {% block content %}
+<div class="max-w-md mx-auto mt-10 p-6 bg-white rounded-lg shadow-md">
+  <h1 class="text-2xl font-bold mb-4 text-center">Login Form</h1>
+  <form action="{% url 'auth' %}" method="POST" class="space-y-4">
+    {% csrf_token %}
+
+    <!-- Display non-field errors -->
+    {% if messages %}
+    <div class="mt-1 flex justify-center flex-1 items-center">
+      <ul>
+        {% for message in messages %}
+        <li
+          class="{% if message.tags == 'error' %}text-red-500{% elif message.tags == 'success' %}text-green-500{% endif %} text-sm"
+        >
+          {{ message }}
+        </li>
+        {% endfor %}
+      </ul>
+    </div>
+    {% endif %}
+
+    <!-- Display field errors -->
+    {% for field in form %}
+    <div class="mb-4">
+      <label
+        class="block text-gray-700 text-sm font-bold mb-2"
+        for="{{ field.id_for_label }}"
+      >
+        {{ field.label }}
+      </label>
+      {{ field }} {% if field.errors %}
+      <div class="text-red-500 text-sm mt-1">
+        <ul>
+          {% for error in field.errors %}
+          <li>{{ error }}</li>
+          {% endfor %}
+        </ul>
+      </div>
+      {% endif %}
+    </div>
+    {% endfor %}
+
+    <!-- Display help texts if any -->
+    <div class="text-gray-600 text-sm mt-1">
+      <ul>
+        {% for help_text in form.get_password_help_texts %}
+        <li>{{ help_text }}</li>
+        {% endfor %}
+      </ul>
+    </div>
+
+    <!-- Submit button -->
+    <button
+      type="submit"
+      class="w-full bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700"
+    >
+      Login
+    </button>
+  </form>
+</div>
+{% endblock %}
